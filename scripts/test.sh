@@ -2,10 +2,10 @@
 
 set -x
 
-JSON_RPC="http://localhost:1234"
+JSON_RPC="https://nova-0.gemini-3h.subspace.network/ws"
 
 # start geth in a local container
-docker container run --rm -d --name deployment-proxy-geth -p 1234:8545 -e GETH_VERBOSITY=3 keydonix/geth-clique
+docker container run --platform linux/amd64 --rm -d --name deployment-proxy-geth -p 1234:8545 -e GETH_VERBOSITY=3 keydonix/geth-clique
 # wait for geth to become responsive
 until curl --silent --fail $JSON_RPC -X 'POST' -H 'Content-Type: application/json' --data "{\"jsonrpc\":\"2.0\", \"id\":1, \"method\": \"net_version\", \"params\": []}"; do sleep 1; done
 
